@@ -1,14 +1,12 @@
-
-
 import './App.css'
 import EconomicSectorsClassification from './pages/EconomicSectorsClassification'
+import Level2 from './pages/Level2'
 
-function App() {
- 
-
+function App () {
   return (
     <>
-      <EconomicSectorsClassification  />
+      <EconomicSectorsClassification />
+      <Level2 />
     </>
   )
 }

@@ -183,7 +183,7 @@ const EconomicSectorsClassification = () => {
   };
 
   return (
-    <div className="bg-blue-50 h-screen w-screen p-6 rounded-lg mx-auto">
+    <div className="bg-blue-50 h-screen w-screen p-6 mx-auto">
       <div className=" mx-auto">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-center text-xl font-bold">Rearrange the given elements in appropriate system box</h2>
@@ -241,11 +241,11 @@ const EconomicSectorsClassification = () => {
         {/* Unassigned items */}
         {!isCompleted && unassignedItems.length > 0 && (
           <div className="bg-transparent p-4 rounded-md">
-            <div className="flex flex-wrap gap-2  justify-center">
+            <div className="flex flex-wrap gap-1 justify-center">
               {unassignedItems.map((item) => (
                 <div 
                   key={item.id}
-                  className="h-28 w-28 flex flex-col items-center justify-center bg-gray-50 rounded-md p-1 cursor-grab"
+                  className="h-32 w-32 flex flex-col items-center justify-center bg-gray-50 rounded-md p-1 cursor-grab"
                   draggable
                   onDragStart={(e) => handleDragStart(e, item)}
                 >
