@@ -20,10 +20,10 @@ const Level2 = () => {
       conditions: 'Formal',
       ownership: 'Public'
     },
-    Transportation: {
+    "Prime Minister": {
       activity: 'Tertiary',
       conditions: 'Formal',
-      ownership: 'Mixed'
+      ownership: 'Public'
     },
     'Street Vendor': {
       activity: 'Tertiary',
@@ -37,7 +37,7 @@ const Level2 = () => {
     Farming: { activity: '', conditions: '', ownership: '' },
     Fishing: { activity: '', conditions: '', ownership: '' },
     'Police Officer': { activity: '', conditions: '', ownership: '' },
-    Transportation: { activity: '', conditions: '', ownership: '' },
+    "Prime Minister": { activity: '', conditions: '', ownership: '' },
     'Street Vendor': { activity: '', conditions: '', ownership: '' }
   })
 
