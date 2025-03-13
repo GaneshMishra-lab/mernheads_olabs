@@ -1,15 +1,14 @@
-
-
 import './App.css'
 import EconomicSectorsClassification from './pages/EconomicSectorsClassification'
-import EconomicSectorsGame from './pages/EconomicSectorsGame'
+import Level2 from './pages/Level2'
+import SectorSimulation from './pages/SectorSimulation'
 
-function App() {
- 
-
+function App () {
   return (
     <>
-      <EconomicSectorsGame />
+      <EconomicSectorsClassification />
+      <Level2 />
+      <SectorSimulation />
     </>
   )
 }
