@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 
 // Define occupation options with categories
 const occupationOptions = [
-  { id: 'sugar-shop', name: 'Sugar Shop', category: 'tertiary', image: "/assets/sugarshop.svg" },
-  { id: 'gold-mine', name: 'Gold Mine', category: 'primary', image: "/assets/mine.svg" },
-  { id: 'sugarcane-farmer', name: 'Sugarcane farmer', category: 'primary', image: "/assets/sugarcane.svg" },
-  { id: 'goldsmith', name: 'GoldSmith', category: 'secondary', image: "/assets/goldsmit.svg" },
-  { id: 'sugarcane-mill', name: 'Sugarcane Mill', category: 'secondary', image: "/assets/mill.svg" },
-  { id: 'jewellry-shop', name: 'Jewellry Shop', category: 'tertiary', image: "/assets/jewellry.svg" },
-  { id: 'teaching', name: 'Teaching', category: 'tertiary', image: "/assets/teaching.svg" },
-  { id: 'it-services', name: 'IT Services', category: 'tertiary', image: "/assets/it.svg" },
-  { id: 'automobile-manufacturing', name: 'Automobile Manufacturing', category: 'secondary', image: "/assets/automobile.svg" },
-  { id: 'dairy-farming', name: 'Dairy Farming', category: 'primary', image: "/assets/dairy.svg" }
+  { id: 'sugar-shop', name: 'Sugar Shop', category: 'tertiary', image: "/assets/sugarshop.svg" , product: "sugar" },
+  { id: 'gold-mine', name: 'Gold Mine', category: 'primary', image: "/assets/mine.svg", product: "jewellery" },
+  { id: 'sugarcane-farmer', name: 'Sugarcane farmer', category: 'primary', image: "/assets/sugarcane.svg", product: "sugar" },
+  { id: 'goldsmith', name: 'GoldSmith', category: 'secondary', image: "/assets/goldsmit.svg", product: "jewellery" },
+  { id: 'sugarcane-mill', name: 'Sugarcane Mill', category: 'secondary', image: "/assets/mill.svg", product: "sugar" },
+  { id: 'jewellry-shop', name: 'Jewellry Shop', category: 'tertiary', image: "/assets/jewellry.svg", product: "jewellery" },
+  { id: 'teaching', name: 'Teaching', category: 'tertiary', image: "/assets/teaching.svg", product: "education" },
+  { id: 'it-services', name: 'IT Services', category: 'tertiary', image: "/assets/it.svg", product: "service" },
+  { id: 'automobile-manufacturing', name: 'Automobile Manufacturing', category: 'secondary', image: "/assets/automobile.svg", product: "car" },
+  { id: 'dairy-farming', name: 'Dairy Farming', category: 'primary', image: "/assets/dairy.svg" , product: "milk"}
 ];
 
 const EconomicSystemDiagram = () => {
@@ -60,7 +60,8 @@ const EconomicSystemDiagram = () => {
     if (!draggedItem) return;
 
     // Validate category
-    const isCorrect = draggedItem.category === targetSector;
+    const isCorrect = draggedItem.category === targetSector && draggedItem.product === "sugar";
+
 
     if (!isCorrect) {
       setSectorErrors(prev => ({ ...prev, [targetSector]: true }));
@@ -72,7 +73,14 @@ const EconomicSystemDiagram = () => {
     // Clear errors
     setSectorErrors(prev => ({ ...prev, [targetSector]: false }));
 
-    // Remove from source
+    const existingItem = sectors[targetSector].length > 0 ? sectors[targetSector][0] : null;
+
+    setSectors(prev => ({
+      ...prev,
+      [targetSector]: [draggedItem] // Replace with the new item
+    }));
+  
+    // Remove from source (previous location)
     if (sourceSector) {
       setSectors(prev => ({
         ...prev,
@@ -81,12 +89,11 @@ const EconomicSystemDiagram = () => {
     } else {
       setUnassignedItems(prev => prev.filter(item => item.id !== itemId));
     }
-
-    // Add to target sector
-    setSectors(prev => ({
-      ...prev,
-      [targetSector]: [...prev[targetSector], draggedItem]
-    }));
+  
+    // Move the existing item back to unassigned items
+    if (existingItem) {
+      setUnassignedItems(prev => [...prev, existingItem]);
+    }
   };
 
   return (
@@ -99,7 +106,7 @@ const EconomicSystemDiagram = () => {
           <React.Fragment key={sector}>
             <div className="flex flex-col items-center">
               <div
-                className={`w-32 h-32 rounded-full flex flex-wrap items-center justify-center mb-2 p-2 ${
+                className={`w-32 h-32 rounded-full flex flex-wrap items-center justify-center mb-2  ${
                   sectorErrors[sector] ? 'bg-red-200' : 'bg-gray-200'
                 }`}
                 onDragOver={handleDragOver}
@@ -110,7 +117,7 @@ const EconomicSystemDiagram = () => {
                     key={item.id}
                     src={item.image}
                     alt={item.name}
-                    className="w-12 h-12 m-1 rounded-full object-cover"
+                    className="w-fit h-32  rounded-full object-cover"
                   />
                 ))}
               </div>
@@ -120,24 +127,21 @@ const EconomicSystemDiagram = () => {
               </div>
             </div>
             {sector !== 'tertiary' && (
-              <div className="w-12 h-1 bg-black relative">
-                <div className="absolute right-0 top-1/2 transform -translate-y-1/2 rotate-45 w-3 h-1 bg-black"></div>
-                <div className="absolute right-0 top-1/2 transform -translate-y-1/2 -rotate-45 w-3 h-1 bg-black"></div>
-              </div>
+             <img src="/assets/arrow.svg" alt="Arrow Right" className="w-28 h-32 self-start "  />
             )}
+            
           </React.Fragment>
         ))}
         
         {/* Product Display */}
+        <img src="/assets/arrow.svg" alt="Arrow Right" className="w-28 h-32 self-start "  />
         <div className="flex flex-col items-center">
           <div className="w-32 h-32 bg-white rounded-full border-2 border-amber-300 flex items-center justify-center mb-2">
-            <div className="w-20 h-24 bg-amber-100 rounded-t-full border border-amber-300 flex items-center justify-center relative">
-              <div className="absolute -top-2 left-0 right-0 h-4 bg-white rounded-full"></div>
-              <span className="text-amber-800 text-xs">SUGAR</span>
-            </div>
+            <img src="/assets/sugar.svg" alt="sugar image" />
           </div>
           <p className="font-bold">Product</p>
         </div>
+        
       </div>
 
       {/* Available Items */}
