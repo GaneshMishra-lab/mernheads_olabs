@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 
 // Define occupation options with categories
 const occupationOptions = [
@@ -7,7 +7,7 @@ const occupationOptions = [
   { id: 'sugarcane-farmer', name: 'Sugarcane farmer', category: 'primary', image: "/assets/sugarcane.svg", product: "sugar" },
   { id: 'goldsmith', name: 'GoldSmith', category: 'secondary', image: "/assets/goldsmit.svg", product: "jewellery" },
   { id: 'sugarcane-mill', name: 'Sugarcane Mill', category: 'secondary', image: "/assets/mill.svg", product: "sugar" },
-  { id: 'jewellry-shop', name: 'Jewellry Shop', category: 'tertiary', image: "/assets/jewellry.svg", product: "jewellery" },
+  { id: 'jewellry-shop', name: 'Jewellry Shop', category: 'tertiary', image: "/assets/jewelleryshop.svg", product: "jewellery" },
   { id: 'teaching', name: 'Teaching', category: 'tertiary', image: "/assets/teaching.svg", product: "education" },
   { id: 'it-services', name: 'IT Services', category: 'tertiary', image: "/assets/it.svg", product: "service" },
   { id: 'automobile-manufacturing', name: 'Automobile Manufacturing', category: 'secondary', image: "/assets/automobile.svg", product: "car" },
@@ -29,6 +29,34 @@ const EconomicSystemDiagram = () => {
     secondary: false,
     tertiary: false
   });
+  const products = [{name: "sugar", image: "/assets/sugar.svg"}, {name: "jewellery", image: "/assets/jewellery.svg"}];
+  const[answer , setAnswer] = useState( products[0]);
+  useEffect(() => {
+    const allSectorsFilled = Object.values(sectors).every(items => items.length > 0);
+    if (allSectorsFilled) {
+      
+      if(answer.name === products[0].name){
+        
+        setTimeout(() => {
+          setAnswer(products[1]);
+          setSectors({
+            primary: [],
+            secondary: [],
+            tertiary: []
+          });
+        }, 1000); // Delay clearing to show the filled state briefly
+      
+      }
+    }
+    if (feedback) {
+      const timer = setTimeout(() => {
+        setFeedback('');
+      }, 1000); // Clear feedback after 3 seconds
+
+      return () => clearTimeout(timer);
+       // Cleanup on unmount or feedback update
+    }
+  }, [feedback , sectors,answer]);
 
   const handleDragStart = (e, item) => {
     e.dataTransfer.setData("itemId", item.id);
@@ -60,14 +88,18 @@ const EconomicSystemDiagram = () => {
     if (!draggedItem) return;
 
     // Validate category
-    const isCorrect = draggedItem.category === targetSector && draggedItem.product === "sugar";
+    const isCorrect = draggedItem.category === targetSector && draggedItem.product === answer.name;
 
-
+    
     if (!isCorrect) {
       setSectorErrors(prev => ({ ...prev, [targetSector]: true }));
       setFeedback('Incorrect placement! Try another sector.');
-      setPoints(10);
+      setPoints(prev => prev - 5);
       return;
+    }
+    else{
+      setFeedback('Good keep going!!');
+      setPoints(prev => prev + 10);
     }
 
     // Clear errors
@@ -94,11 +126,19 @@ const EconomicSystemDiagram = () => {
     if (existingItem) {
       setUnassignedItems(prev => [...prev, existingItem]);
     }
+    
   };
 
   return (
     <div className="bg-gray-100 p-8 rounded-lg max-w-4xl mx-auto">
+      <div className='flex justify-between items-start'> 
+      <div>
       <h1 className="text-2xl font-bold text-center mb-8">Rearrange the elements into the correct economic sectors</h1>
+      </div>
+      <div className="bg-white p-2 rounded-lg shadow">
+              <span className="font-bold text-center ">Points: {points}</span>
+            </div>
+      </div>
       
       {/* Economic Sectors Flow */}
       <div className="flex justify-between items-center mb-12">
@@ -137,7 +177,7 @@ const EconomicSystemDiagram = () => {
         <img src="/assets/arrow.svg" alt="Arrow Right" className="w-28 h-32 self-start "  />
         <div className="flex flex-col items-center">
           <div className="w-32 h-32 bg-white rounded-full border-2 border-amber-300 flex items-center justify-center mb-2">
-            <img src="/assets/sugar.svg" alt="sugar image" />
+            <img src={answer.image} alt={answer.name} />
           </div>
           <p className="font-bold">Product</p>
         </div>
@@ -168,13 +208,11 @@ const EconomicSystemDiagram = () => {
 
       {/* Feedback Section */}
       {feedback && (
-        <div className="mt-4 p-3 text-center text-red-600 font-semibold">
+        <div className={`mt-4 p-3 rounded-md animate-pulse absolute top-7 left-1 text-center ${feedback.charAt(0) == 'G'? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'} font-semibold`}>
           {feedback}
         </div>
       )}
-      <div className="mt-4 text-center font-bold">
-        Points: {points}
-      </div>
+      
     </div>
   );
 };
