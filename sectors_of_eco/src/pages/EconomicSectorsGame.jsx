@@ -65,6 +65,7 @@ const EconomicSystemDiagram = () => {
     if (!isCorrect) {
       setSectorErrors(prev => ({ ...prev, [targetSector]: true }));
       setFeedback('Incorrect placement! Try another sector.');
+      setPoints(10);
       return;
     }
 
