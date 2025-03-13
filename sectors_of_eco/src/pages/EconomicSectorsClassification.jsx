@@ -217,14 +217,14 @@ const EconomicSectorsClassification = () => {
           {sectors.map((sector) => (
             <div key={sector} className="flex flex-col items-center">
               <div 
-                className={`border-2 ${sectorErrors[sector] ? 'border-red-500 bg-red-50' : isCompleted ? 'border-green-500 bg-green-50' : 'border-black'} rounded-md w-40 h-40 sm:w-48 sm:h-48 md:w-80 md:h-80 flex flex-wrap content-start justify-center p-2 overflow-y-auto transition-colors duration-300`}
+                className={`border-2 ${sectorErrors[sector] ? 'border-red-500 bg-red-50' : isCompleted ? 'border-green-500 bg-green-50' : 'border-black'} rounded-md w-40 h-40 sm:w-48 sm:h-48 md:w-80 md:h-72 flex flex-wrap content-start justify-center p-2 overflow-y-auto transition-colors duration-300`}
                 onDragOver={handleDragOver}
                 onDrop={(e) => handleDrop(e, sector)}
               > 
                 {itemAssignments[sector].map((item) => (
                   <div 
                     key={item.id}
-                    className="h-fit w-fit m-1 flex flex-col items-center justify-center bg-white rounded-md p-1 cursor-grab"
+                    className="h-fit w-fit m-1 flex flex-col items-center justify-center rounded-md p-1 cursor-grab"
                     draggable={!isCompleted}
                     onDragStart={(e) => handleDragStart(e, item)}
                   >
@@ -245,7 +245,7 @@ const EconomicSectorsClassification = () => {
               {unassignedItems.map((item) => (
                 <div 
                   key={item.id}
-                  className="h-32 w-32 flex flex-col items-center justify-center bg-gray-50 rounded-md p-1 cursor-grab"
+                  className="h-24 w-32 flex flex-col items-center justify-center rounded-md p-1 cursor-grab"
                   draggable
                   onDragStart={(e) => handleDragStart(e, item)}
                 >
