@@ -1,5 +1,3 @@
-'use client'
-
 import { useState } from 'react'
 import { DndContext, useDraggable, useDroppable } from '@dnd-kit/core'
 import { motion } from 'framer-motion'
@@ -147,12 +145,26 @@ const DroppableArea = ({ id, children }) => {
   )
 }
 
-const Card = ({ children, onClick }) => (
+const Card = ({ children, onClick, backgroundImage }) => (
   <div
     onClick={onClick}
-    className='cursor-pointer p-5 border rounded-lg shadow-md hover:shadow-lg transition-shadow bg-white'
+    className='cursor-pointer p-5 border rounded-lg shadow-md hover:shadow-lg transition-shadow relative overflow-hidden group'
   >
-    {children}
+    {/* Background image with overlay */}
+    <div
+      className='absolute inset-0 bg-cover bg-center transition-transform group-hover:scale-105'
+      style={{
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center'
+      }}
+    />
+    {/* Dark overlay for text readability */}
+    <div className='absolute inset-0 bg-black/40 group-hover:bg-black/10 transition-colors' />
+
+    {/* Content */}
+    <div className='relative z-10 text-white'>{children}</div>
   </div>
 )
 
@@ -181,6 +193,12 @@ export default function SectorSimulation () {
   const [selectedSolutions, setSelectedSolutions] = useState([])
   const [feedback, setFeedback] = useState('')
   const [showImpacts, setShowImpacts] = useState(false)
+
+  const scenarioBackgrounds = {
+    1: '/Rural.jpeg', // Rural scene
+    2: '/Food.jpeg', // City scene
+    3: 'costal.webp' // Coastal scene
+  }
 
   const handleDrop = event => {
     const id = event.active.id
@@ -242,9 +260,12 @@ export default function SectorSimulation () {
                   <Card
                     key={problem.id}
                     onClick={() => setSelectedProblem(problem)}
+                    backgroundImage={scenarioBackgrounds[problem.id]}
                   >
-                    <h3 className='font-semibold text-lg'>{problem.title}</h3>
-                    <p className='text-gray-600 mt-1'>{problem.description}</p>
+                    <h3 className='font-semibold text-lg text-white'>
+                      {problem.title}
+                    </h3>
+                    <p className='text-gray-100 mt-1'>{problem.description}</p>
                   </Card>
                 ))}
               </div>
