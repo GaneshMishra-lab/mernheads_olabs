@@ -34,13 +34,13 @@ const EconomicSectors = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-700 flex flex-col items-center justify-center p-6">
+    <div className="min-h-screen bg-[#506f6a] flex flex-col items-center justify-center p-6">
       {/* Header */}
       <div className="flex items-center w-full max-w-4xl justify-between mb-6">
-        <div className="p-3 bg-gray-800 rounded-full">
-          <Home className="text-white"></Home>
+        <div className="p-3 bg-[#506f6a] rounded-full">
+          <Home ></Home>
         </div>
-        <h1 className="text-2xl md:text-3xl font-bold text-white border px-6 py-2 rounded-lg border-gray-300">
+        <h1 className="text-2xl md:text-3xl font-bold text-black border px-6 py-2 rounded-lg border-black">
           Economics: Sectors of Indian Economy
         </h1>
         <div className="w-8"></div> {/* Spacer for alignment */}
@@ -51,7 +51,7 @@ const EconomicSectors = () => {
         {sectors.map((sector, index) => (
           <div
             key={index}
-            className={`relative p-4 rounded-lg shadow-lg border-4 ${sector.borderColor} bg-white bg-opacity-60`}
+            className={`relative p-4 rounded-lg shadow-lg border-4 text-black bg-[#a7b7b5] bg-opacity-60`}
             style={{
               backgroundImage: `url(${sector.bgImage})`,
               backgroundSize: "cover",

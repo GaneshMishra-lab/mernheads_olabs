@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 const EconomicIntro = () => {
     const navigate = useNavigate();
   return (
-    <div className="min-h-screen bg-gray-700 flex flex-col items-center justify-center p-6">
+    <div className="min-h-screen bg-[#506f6a] flex flex-col items-center justify-center p-6">
       {/* Main Card */}
       <div className="bg-gray-200 p-6 rounded-lg shadow-lg w-full max-w-md text-center">
         <h1 className="text-xl md:text-2xl font-bold text-red-700 mb-4">
